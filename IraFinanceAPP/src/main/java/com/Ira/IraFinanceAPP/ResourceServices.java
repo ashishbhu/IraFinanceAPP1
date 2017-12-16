@@ -179,9 +179,9 @@ public class ResourceServices {
 	   @GET
 	   @Path("additem")
 	   @Consumes(MediaType.APPLICATION_JSON)
-	   public String addItem()
+	   public String addItem(@QueryParam("add") String item)
 	   {
-		   return db.getAddItem();
+		   return db.getAddItem(item);
 	   }
 	   
 	   

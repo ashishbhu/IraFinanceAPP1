@@ -1048,10 +1048,10 @@ public class FinanceDatabase
 /*=------------------------------Shrink data-------------------------------------------*/
 		
 		
-		public String getAddItem()
+		public String getAddItem(String str)
 		{
 			
-			String str="{\"subid\":[1000],\"itemid\":[AF1],\"itemname\":[APPLE],\"itemprice\":[20],\"measurement\":[per kg],\"itemcategory\":[Fruit],\"gstcategory\":[igst],\"startdate\":[2017-12-16],\"enddate\":[2018-12-16],\"count\":[0],\"version\":[1]}";
+			//String str="{\"subid\":[1000],\"itemid\":[AF1],\"itemname\":[APPLE],\"itemprice\":[20],\"measurement\":[per kg],\"itemcategory\":[Fruit],\"gstcategory\":[igst],\"startdate\":[2017-12-16],\"enddate\":[2018-12-16],\"count\":[0],\"version\":[1]}";
 			
 			String s="insert into itemmain values(?,?,?,?,?,?,?,?,?,?,?)";
 			
