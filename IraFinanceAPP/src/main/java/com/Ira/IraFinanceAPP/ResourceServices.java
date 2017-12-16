@@ -176,6 +176,13 @@ public class ResourceServices {
 	   
 	  /*----------------------------Shrink Item--------------------------------*/ 
 	   
+	   @GET
+	   @Path("additem")
+	   @Consumes(MediaType.APPLICATION_JSON)
+	   public String addItem()
+	   {
+		   return db.getAddItem();
+	   }
 	   
 	   
 }
