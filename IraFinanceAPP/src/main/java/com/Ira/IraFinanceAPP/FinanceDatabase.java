@@ -1108,11 +1108,6 @@ public class FinanceDatabase
 			return "success";
 		}
 		
-		
-		
-		
-		
-		
-		
+	
 }
 
