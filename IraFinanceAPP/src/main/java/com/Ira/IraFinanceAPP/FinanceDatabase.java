@@ -1057,7 +1057,9 @@ public class FinanceDatabase
 			
 			try
 			{
+				//System.out.println(str);
 				JSONObject obj=new JSONObject(str);
+				
 				
 				JSONArray arr = obj.getJSONArray("subid");
 				JSONArray arr1 = obj.getJSONArray("itemid");
