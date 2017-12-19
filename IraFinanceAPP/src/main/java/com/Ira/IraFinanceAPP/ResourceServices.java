@@ -178,13 +178,19 @@ public class ResourceServices {
 	   
 	  /*----------------------------Shrink Item--------------------------------*/ 
 	   
-	   @GET
+	   @POST
 	   @Path("additem")
 	   @Consumes(MediaType.APPLICATION_JSON)
-	   public String addItem(@QueryParam("add") String item)
+	   @Produces(MediaType.APPLICATION_JSON)
+	   public String  addItem(String item)
 	   {
+		   System.out.println(item);
 		   return db.getAddItem(item);
+		   
 	   }
+	   
+	   
+	  
 	   
 	   
 }

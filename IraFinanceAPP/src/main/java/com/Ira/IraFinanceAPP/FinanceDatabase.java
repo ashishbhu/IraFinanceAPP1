@@ -1050,10 +1050,44 @@ public class FinanceDatabase
 		
 		public String getAddItem(String str)
 		{
-			
+			int flag=0;
+			int temp=0;
+			int count=0,iditem=0,itemversion=0,itemenddate=0,update=0;
 			//String str="{\"subid\":[1000],\"itemid\":[AF1],\"itemname\":[APPLE],\"itemprice\":[20],\"measurement\":[per kg],\"itemcategory\":[Fruit],\"gstcategory\":[igst],\"startdate\":[2017-12-16],\"enddate\":[2018-12-16],\"count\":[0],\"version\":[1]}";
 			
-			String s="insert into itemmain values(?,?,?,?,?,?,?,?,?,?,?)";
+			
+			
+			
+			
+			
+			
+			/*--------------------selecting last item in item table--------------*/
+			
+			String key="select max(id) from itemmain";
+			
+			try
+			{
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery(key);
+			rs.next();
+			temp=rs.getInt(1);
+			System.out.println(temp);
+			
+			}
+			catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			
+			
+			
+			/*------------------------inserting data into itemmain-------------------*/
+			
+			
+			
+			
+			
+			String s="insert into itemmain (subId,itemid,itemname,itemprice,measurement,itemcategory,gstcategory,startdate,enddate,count,version) values(?,?,?,?,?,?,?,?,?,?,?)";
 			
 			try
 			{
@@ -1073,6 +1107,10 @@ public class FinanceDatabase
 				JSONArray arr9 = obj.getJSONArray("count");
 				JSONArray arr10 = obj.getJSONArray("version");
 				
+			
+			    String itemtable="select itemid,version,enddate from itemmain";
+			
+			   
 				
 				
 				for(int i=0; i<arr.length() && i<arr1.length() && i<arr2.length() && i<arr3.length() && i<arr4.length() && i<arr5.length() && i<arr6.length() && i<arr7.length() && i<arr8.length() &&i<arr9.length() &&i<arr10.length()  ; i++)
@@ -1080,34 +1118,109 @@ public class FinanceDatabase
 					
 					PreparedStatement ps = con.prepareStatement(s);
 					
-					ps.setInt(1,arr.getInt(i));
-					ps.setString(2, arr1.getString(i));
-					ps.setString(3, arr2.getString(i));
-					ps.setString(4, arr3.getString(i));
-					ps.setString(5, arr4.getString(i));
-					ps.setString(6, arr5.getString(i));
-					ps.setString(7, arr6.getString(i));
-					ps.setString(8, arr7.getString(i));
-					ps.setString(9, arr8.getString(i));
-					ps.setString(10, arr9.getString(i));
-					ps.setString(11, arr10.getString(i));
+					 	Statement st1=con.createStatement();
+						ResultSet rs1=st1.executeQuery(itemtable);
+					
+					while(rs1.next())
+						{
+							if(rs1.getString(1).equals(arr1.getString(i)))
+							{	 
+								iditem=1;
+							
+								if(rs1.getString(2).equals(arr10.getString(i)))
+										itemversion=1;
+								if(rs1.getString(3).equals(arr8.getString(i)))
+											itemenddate=1;
+							
+							}
+							if(iditem==1 && itemversion==1 && itemenddate==1)
+								break;
+							
+							if(iditem==1 && itemversion==1 && itemenddate!=1)
+								update=1;
+							
+							if(iditem==1 && itemversion!=1)
+								{
+									count=1;
+									break;
+								}
+							
+						}
 					
 					
-					ps.executeUpdate();
+					System.out.println((arr1.getString(i)));
 					
+					if(count==1 || iditem==0)
+					{
+						ps.setInt(1,arr.getInt(i));
+						ps.setString(2, arr1.getString(i));
+						ps.setString(3, arr2.getString(i));
+						ps.setString(4, arr3.getString(i));
+						ps.setString(5, arr4.getString(i));
+						ps.setString(6, arr5.getString(i));
+						ps.setString(7, arr6.getString(i));
+						ps.setString(8, arr7.getString(i));
+						ps.setString(9, arr8.getString(i));
+						ps.setString(10, arr9.getString(i));
+						ps.setString(11, arr10.getString(i));
+					
+					
+						ps.executeUpdate();
+					}
 				
 				}
-				
+			}
+			catch(Exception e)
+			{
+				flag=1;	
+				System.out.println(e);
+			}
 		
 				
-			}catch(Exception e)
+			
+			/*-----------------------delete data if failed----------------*/
+			if(flag==1)
+			{
+				String del="delete from itemmain where id>"+temp;
+				
+				try
+				{
+				PreparedStatement ps = con.prepareStatement(del);
+				
+				ps.executeUpdate();
+				}
+				catch(Exception e)
+	 			{
+					System.out.println(e);
+				}
+			}
+			
+			
+			/*------------------Sending Responce---------------*/
+			
+			JSONObject jo=new JSONObject();
+			try
+			{
+			
+			
+			if(flag==1)
+			{
+				jo.put("check", "fail");
+				return jo.toString();
+			}
+			else
+			{
+				jo.put("check", "success");
+			}
+			
+			}
+			catch(Exception e)
 			{
 				System.out.println(e);
 			}
 			
+			return	jo.toString();
 			
-			
-			return "success";
 		}
 		
 	
