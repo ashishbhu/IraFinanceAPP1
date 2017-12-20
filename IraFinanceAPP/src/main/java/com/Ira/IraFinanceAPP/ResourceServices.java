@@ -176,7 +176,7 @@ public class ResourceServices {
 	   }
 	  
 	   
-	  /*----------------------------Shrink Item--------------------------------*/ 
+	  /*11.----------------------------Shrink Item--------------------------------*/ 
 	   
 	   @POST
 	   @Path("additem")
@@ -184,13 +184,34 @@ public class ResourceServices {
 	   @Produces(MediaType.APPLICATION_JSON)
 	   public String  addItem(String item)
 	   {
-		   System.out.println(item);
+		   //System.out.println(item);
 		   return db.getAddItem(item);
 		   
 	   }
 	   
 	   
-	  
+	/*12.--------------------------GET ITEM DETAIL BY SUB ID WHICH ITEM IS ACTIVE----------------------*/
 	   
+	  @GET
+	  @Path("getitem")
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public String getAllItem(@QueryParam("subid") String id)
+	  {
+		  return db.getItem(id);
+	  }
+	   
+	   
+	/*13.-------------------LOGin DETAIL BY USER NAME----------------------------------------*/
+	  
+	  @POST
+	  @Path("logindetail")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public String loginDetails(String detail)
+	  {
+		  System.out.println("hii");
+		  return db.getLoginDetail(detail);
+	  }
+	  
 	   
 }

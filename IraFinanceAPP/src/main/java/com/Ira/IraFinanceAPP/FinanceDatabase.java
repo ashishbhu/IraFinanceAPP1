@@ -1052,7 +1052,7 @@ public class FinanceDatabase
 		{
 			int flag=0;
 			int temp=0;
-			int count=0,iditem=0,itemversion=0,itemenddate=0,update=0;
+			int count=0,addnew=0;
 			//String str="{\"subid\":[1000],\"itemid\":[AF1],\"itemname\":[APPLE],\"itemprice\":[20],\"measurement\":[per kg],\"itemcategory\":[Fruit],\"gstcategory\":[igst],\"startdate\":[2017-12-16],\"enddate\":[2018-12-16],\"count\":[0],\"version\":[1]}";
 			
 			
@@ -1115,6 +1115,7 @@ public class FinanceDatabase
 				
 				for(int i=0; i<arr.length() && i<arr1.length() && i<arr2.length() && i<arr3.length() && i<arr4.length() && i<arr5.length() && i<arr6.length() && i<arr7.length() && i<arr8.length() &&i<arr9.length() &&i<arr10.length()  ; i++)
 				{
+					int iditem=0,itemversion=0,itemenddate=0;
 					
 					PreparedStatement ps = con.prepareStatement(s);
 					
@@ -1124,7 +1125,8 @@ public class FinanceDatabase
 					while(rs1.next())
 						{
 							if(rs1.getString(1).equals(arr1.getString(i)))
-							{	 
+							{	
+								System.out.println("id= ");
 								iditem=1;
 							
 								if(rs1.getString(2).equals(arr10.getString(i)))
@@ -1132,25 +1134,51 @@ public class FinanceDatabase
 								if(rs1.getString(3).equals(arr8.getString(i)))
 											itemenddate=1;
 							
-							}
-							if(iditem==1 && itemversion==1 && itemenddate==1)
-								break;
 							
-							if(iditem==1 && itemversion==1 && itemenddate!=1)
-								update=1;
-							
-							if(iditem==1 && itemversion!=1)
+								if(iditem==1 && itemversion==1 && itemenddate==1)
 								{
-									count=1;
+									System.out.println("id= ver= date=");
 									break;
 								}
 							
+								
+								if(iditem==1 && itemversion==1 && itemenddate!=1)
+								{
+									System.out.println("hiiii");
+									
+								
+									String dd=arr8.getString(i);
+								    String idd=arr1.getString(i);
+								    String ve=arr10.getString(i);
+									String dd1="'"+dd+"'";
+									String idd1="'"+idd+"'";
+									String ver="'"+ve+"'";
+									String up="update itemmain set enddate="+dd1 +"where itemid="+idd1 + "and version="+ver;
+								
+									PreparedStatement ps2 = con.prepareStatement(up);
+								
+								
+									ps2.executeUpdate();
+								    
+									count=0;
+									
+									break;
+								}
+							
+								if(iditem==1 && itemversion!=1)
+									{
+									System.out.println("id= ver!=");
+									count=1;
+									
+									//break;
+									}
+							
+						}
+					
 						}
 					
 					
-					System.out.println((arr1.getString(i)));
-					
-					if(count==1 || iditem==0)
+					if(count==1 || iditem==0 )
 					{
 						ps.setInt(1,arr.getInt(i));
 						ps.setString(2, arr1.getString(i));
@@ -1224,5 +1252,183 @@ public class FinanceDatabase
 		}
 		
 	
+		
+/*12.--------------------------GET ITEM DETAIL BY SUB ID WHICH ITEM IS ACTIVE----------------------*/		
+		
+	
+		public String getItem(String id)
+		{
+			int flag=0;
+			String dat="select subdate(curdate(),1) from dual";
+			String datestring=null;
+			try
+			{
+				Statement st1=con.createStatement();
+				ResultSet rs1=st1.executeQuery(dat); 
+				rs1.next();
+				String dat1=rs1.getString(1);
+				datestring="'"+dat1+"'";
+				//System.out.println(dat1);
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			
+			//System.out.println(datestring);
+			String itemdetail="select *from itemmain where enddate>="+datestring +"and subid="+id;
+			
+			try
+			{
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery(itemdetail); 
+			
+			JSONObject jo=new JSONObject();
+			JSONArray ja=new JSONArray();
+			JSONArray ja1=new JSONArray();
+			JSONArray ja2=new JSONArray();
+			JSONArray ja3=new JSONArray();
+			JSONArray ja4=new JSONArray();
+			JSONArray ja5=new JSONArray();
+			JSONArray ja6=new JSONArray();
+			JSONArray ja7=new JSONArray();
+			JSONArray ja8=new JSONArray();
+			JSONArray ja9=new JSONArray();
+			JSONArray ja10=new JSONArray();
+			
+			jo.put("subid", ja);
+			jo.put("itemid", ja1);
+			jo.put("itemname", ja2);
+			jo.put("itemprice", ja3);
+			jo.put("measurement", ja4);
+			jo.put("itemcategory", ja5);
+			jo.put("gstcategory", ja6);
+			jo.put("startdate", ja7);
+			jo.put("enddate", ja8);
+			jo.put("count", ja9);
+			jo.put("version", ja10);
+			while(rs.next())
+			{
+				
+				ja.put(rs.getInt(2));
+				ja1.put(rs.getString(3));
+				ja2.put(rs.getString(4));
+				ja3.put(rs.getString(5));
+				ja4.put(rs.getString(6));
+				ja5.put(rs.getString(7));
+				ja6.put(rs.getString(8));
+				ja7.put(rs.getString(9));
+				ja8.put(rs.getString(10));
+				ja9.put(rs.getString(11));
+				ja10.put(rs.getString(12));
+				
+				//System.out.println(rs.getInt(2)+"  "+rs.getString(10));
+				
+			}
+			return jo.toString();
+			}
+			catch(Exception e)
+			{
+				flag=1;
+				System.out.println(e);
+			}
+			if(flag==1)
+				return "error";
+			return "success";
+		}
+		
+		
+		
+		
+/*13.-------------------LOGin DETAIL BY USER NAME----------------------------------------*/		
+		
+	
+		public String getLoginDetail(String detail)
+		{
+			int count=0;
+			
+			String log="select *from logincontrol";
+			try
+			{
+				
+				
+				JSONObject obj=new JSONObject(detail);
+				JSONArray arr = obj.getJSONArray("username");
+				
+				
+				JSONObject jo=new JSONObject();
+				
+				JSONArray ja=new JSONArray();
+				JSONArray ja1=new JSONArray();
+				JSONArray ja2=new JSONArray();
+				JSONArray ja3=new JSONArray();
+				JSONArray ja4=new JSONArray();
+				JSONArray ja5=new JSONArray();
+				JSONArray ja6=new JSONArray();
+				
+				jo.put("username", ja);
+				jo.put("password", ja1);
+				jo.put("accl", ja2);
+				jo.put("fchg", ja3);
+				jo.put("access", ja4);
+				jo.put("forcelogin", ja5);
+				jo.put("parentid", ja6);
+				
+				for(int i=0; i<arr.length(); i++)
+				{
+					count=0;
+					
+					Statement st=con.createStatement();
+					ResultSet rs=st.executeQuery(log); 
+					
+					while(rs.next())
+					{
+						if(arr.getString(i).equals(rs.getString(1)))
+						{
+							
+							ja.put(rs.getString(1));
+							ja1.put(rs.getString(2));
+							ja2.put(rs.getString(3));
+							ja3.put(rs.getString(4));
+							ja4.put(rs.getString(5));
+							ja5.put(rs.getString(6));
+							ja6.put(rs.getString(7));
+						   
+							count=1;
+						
+						}
+						
+						
+					}
+					if(count==0)
+					{
+						ja.put("null");
+						ja1.put("null");
+						ja2.put("null");
+						ja3.put("null");
+						ja4.put("null");
+						ja5.put("null");
+						ja6.put("null");
+						
+					}
+					
+					
+				}
+				
+				return jo.toString();
+				
+				
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			
+			
+			return "success";
+		}
+		
 }
 
