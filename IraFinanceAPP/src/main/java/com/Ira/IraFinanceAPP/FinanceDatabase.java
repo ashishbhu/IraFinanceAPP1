@@ -1430,5 +1430,184 @@ public class FinanceDatabase
 			return "success";
 		}
 		
+		
+		
+		
+/*14.------------------------DETAILS OF REPORT---------------------------------------------*/		
+		
+	public String getReportHDR(String date1,String date2)
+	{
+		
+		String dat1="'"+date1+"'";
+		String dat2="'"+date2+"'";
+		
+		String hdr="select *from invoice_hdr where  invoice_dt between "+dat1+" and "+dat2;
+		
+		JSONObject jo=new JSONObject();
+		
+		try
+		{
+		JSONArray ja=new JSONArray();
+		JSONArray ja1=new JSONArray();
+		JSONArray ja2=new JSONArray();
+		JSONArray ja3=new JSONArray();
+		JSONArray ja4=new JSONArray();
+		JSONArray ja5=new JSONArray();
+		JSONArray ja6=new JSONArray();
+		JSONArray ja7=new JSONArray();
+		JSONArray ja8=new JSONArray();
+		JSONArray ja9=new JSONArray();
+		JSONArray ja10=new JSONArray();
+		JSONArray ja11=new JSONArray();
+		JSONArray ja12=new JSONArray();
+		JSONArray ja13=new JSONArray();
+		JSONArray ja14=new JSONArray();
+		
+		jo.put("userid", ja);
+		jo.put("invoice_id", ja1);
+		jo.put("invoice_dt", ja2);
+		jo.put("invoice_desc", ja3);
+		jo.put("customer_name", ja4);
+		jo.put("customer_gst", ja5);
+		jo.put("customer_mob", ja6);
+		jo.put("paid_flag", ja7);
+		jo.put("total_disc_amt", ja8);
+		jo.put("paid_via", ja9);
+		jo.put("payment_Ref", ja10);
+		jo.put("total_inv_amt", ja11);
+		jo.put("cgst_amt", ja12);
+		jo.put("sgst_amt", ja13);
+		jo.put("igst_amt" , ja14);
+		
+		
+		
+		Statement st=con.createStatement();
+		ResultSet rs=st.executeQuery(hdr);
+		
+		
+		while(rs.next())
+		{
+			System.out.println(rs.getInt(1));
+			
+			ja.put(rs.getString(1));
+			ja1.put(rs.getInt(2));
+			ja2.put(rs.getDate(3));
+			ja3.put(rs.getString(4));
+			ja4.put(rs.getString(5));
+			ja5.put(rs.getDate(6));
+			ja6.put(rs.getString(7));
+			ja7.put(rs.getString(8));
+			ja8.put(rs.getDouble(9));
+			ja9.put(rs.getString(10));
+			ja10.put(rs.getString(11));
+			ja11.put(rs.getDouble(12));
+			ja12.put(rs.getDouble(13));
+			ja13.put(rs.getDouble(14));
+			ja14.put(rs.getDouble(15));
+			
+		}
+		
+		return jo.toString();
+		
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+	
+		
+		
+		
+		return "success";
+	}
+		
+	
+	
+/*--------------------DETAILS OF REPORT By INVOICE_ID---------------------------*/	
+	
+	public String getInvoiceDetail(String invoiceid)
+	{
+		
+		
+         String hdr="select *from invoice_hdr where  invoice_id="+invoiceid;
+		
+		JSONObject jo=new JSONObject();
+		
+		try
+		{
+		JSONArray ja=new JSONArray();
+		JSONArray ja1=new JSONArray();
+		JSONArray ja2=new JSONArray();
+		JSONArray ja3=new JSONArray();
+		JSONArray ja4=new JSONArray();
+		JSONArray ja5=new JSONArray();
+		JSONArray ja6=new JSONArray();
+		JSONArray ja7=new JSONArray();
+		JSONArray ja8=new JSONArray();
+		JSONArray ja9=new JSONArray();
+		JSONArray ja10=new JSONArray();
+		JSONArray ja11=new JSONArray();
+		JSONArray ja12=new JSONArray();
+		JSONArray ja13=new JSONArray();
+		JSONArray ja14=new JSONArray();
+		
+		jo.put("userid", ja);
+		jo.put("invoice_id", ja1);
+		jo.put("invoice_dt", ja2);
+		jo.put("invoice_desc", ja3);
+		jo.put("customer_name", ja4);
+		jo.put("customer_gst", ja5);
+		jo.put("customer_mob", ja6);
+		jo.put("paid_flag", ja7);
+		jo.put("total_disc_amt", ja8);
+		jo.put("paid_via", ja9);
+		jo.put("payment_Ref", ja10);
+		jo.put("total_inv_amt", ja11);
+		jo.put("cgst_amt", ja12);
+		jo.put("sgst_amt", ja13);
+		jo.put("igst_amt" , ja14);
+		
+		
+		
+		Statement st=con.createStatement();
+		ResultSet rs=st.executeQuery(hdr);
+		
+		
+		while(rs.next())
+		{
+			ja.put(rs.getString(1));
+			ja1.put(rs.getInt(2));
+			ja2.put(rs.getDate(3));
+			ja3.put(rs.getString(4));
+			ja4.put(rs.getString(5));
+			ja5.put(rs.getDate(6));
+			ja6.put(rs.getString(7));
+			ja7.put(rs.getString(8));
+			ja8.put(rs.getDouble(9));
+			ja9.put(rs.getString(10));
+			ja10.put(rs.getString(11));
+			ja11.put(rs.getDouble(12));
+			ja12.put(rs.getDouble(13));
+			ja13.put(rs.getDouble(14));
+			ja14.put(rs.getDouble(15));
+			
+		}
+		
+		return jo.toString();
+		
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		
+		return "success";
+	}
+	
+	
+		
 }
 

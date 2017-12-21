@@ -212,6 +212,36 @@ public class ResourceServices {
 		  System.out.println("hii");
 		  return db.getLoginDetail(detail);
 	  }
+	 
+	/*14.------------------------DETAILS OF REPORT---------------------------------------------*/
+	  
+	  @GET
+	  @Path("reportdetail")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public String reportHDR(@QueryParam("date1") String date1,@QueryParam("date2") String date2)
+	  {
+		  return db.getReportHDR(date1,date2);
+	  }
+	  
+	  
+	  
+/*--------------------DETAILS OF REPORT By INVOICE_ID---------------------------*/
+	  @GET
+	  @Path("reportinvoice")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public String reportInvoice(@QueryParam("invoiceid") String invoiceid)
+	  {
+		  return db.getInvoiceDetail(invoiceid);
+	  }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  
 	   
 }
