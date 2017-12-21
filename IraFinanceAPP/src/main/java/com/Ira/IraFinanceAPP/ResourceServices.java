@@ -238,7 +238,16 @@ public class ResourceServices {
 	  
 	  
 	  
+/*-------------------------GETING CUSTOMER DETAIL BY MOBILE NUMBER-------------------------------*/
 	  
+	  @GET
+	  @Path("cusdetail")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public String customerDetails(@QueryParam("mobile")String mobile)
+	  {
+		  return db.getCustomerDetails(mobile);
+	  }
 	  
 	  
 	  

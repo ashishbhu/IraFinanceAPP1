@@ -1607,6 +1607,51 @@ public class FinanceDatabase
 		return "success";
 	}
 	
+
+/*-------------------------GETING CUSTOMER DETAIL BY MOBILE NUMBER-------------------------------*/	
+	
+	public String getCustomerDetails(String mobile)
+	{
+		
+		//String mobilestring="'"+mobile+"'";
+		String invoicehdr="select  customer_name,customer_mob,  customer_gst from invoice_hdr where  customer_mob="+mobile;
+		
+		JSONObject jo=new JSONObject();
+		
+		
+		try
+		{
+		
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery(invoicehdr);
+			if(rs.next()==false)
+			{
+				jo.put("customermobile", "notexist");
+				jo.put("name", "null");
+				jo.put("gst", "null");
+				
+				return jo.toString();
+				
+			}
+				
+			rs.next();
+			
+			jo.put("customermobile", rs.getString(2));
+			jo.put("name", rs.getString(1));
+			jo.put("gst", rs.getString(3));
+			
+			return jo.toString();
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		return "ok";
+	}
+	
+	
+	
 	
 		
 }
