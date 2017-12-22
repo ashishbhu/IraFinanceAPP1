@@ -226,7 +226,7 @@ public class ResourceServices {
 	  
 	  
 	  
-/*--------------------DETAILS OF REPORT By INVOICE_ID---------------------------*/
+/*15.--------------------DETAILS OF REPORT By INVOICE_ID---------------------------*/
 	  @GET
 	  @Path("reportinvoice")
 	  @Consumes(MediaType.APPLICATION_JSON)
@@ -238,7 +238,7 @@ public class ResourceServices {
 	  
 	  
 	  
-/*-------------------------GETING CUSTOMER DETAIL BY MOBILE NUMBER-------------------------------*/
+/*16.-------------------------GETING CUSTOMER DETAIL BY MOBILE NUMBER-------------------------------*/
 	  
 	  @GET
 	  @Path("cusdetail")
@@ -249,7 +249,18 @@ public class ResourceServices {
 		  return db.getCustomerDetails(mobile);
 	  }
 	  
+/*17.-------------------------SYNCH INVOICE------------------------------------------------------*/
 	  
+	  
+	  
+	  @POST
+	  @Path("invoice")
+	  @Consumes(MediaType.APPLICATION_JSON)
+	  @Produces(MediaType.APPLICATION_JSON)
+	  public String invoiceHDR_Line(String item)
+	  {
+		  return db.getInvoiceHDR_Line(item);
+	  }
 	  
 	  
 	   

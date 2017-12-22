@@ -1524,7 +1524,7 @@ public class FinanceDatabase
 		
 	
 	
-/*--------------------DETAILS OF REPORT By INVOICE_ID---------------------------*/	
+/*15.--------------------DETAILS OF REPORT By INVOICE_ID---------------------------*/	
 	
 	public String getInvoiceDetail(String invoiceid)
 	{
@@ -1608,7 +1608,7 @@ public class FinanceDatabase
 	}
 	
 
-/*-------------------------GETING CUSTOMER DETAIL BY MOBILE NUMBER-------------------------------*/	
+/*16.-------------------------GETING CUSTOMER DETAIL BY MOBILE NUMBER-------------------------------*/	
 	
 	public String getCustomerDetails(String mobile)
 	{
@@ -1651,6 +1651,69 @@ public class FinanceDatabase
 	}
 	
 	
+	
+/*17.-------------------------SYNCH INVOICE------------------------------------------------------*/	
+	
+	
+	public String getInvoiceHDR_Line(String item)
+	{
+		 String hdr="insert into invoice_hdr(userid) values(?)";
+		 
+		// System.out.println(item);
+		 
+		 try
+		 {
+			 JSONObject obj=new JSONObject(item);
+			
+			 JSONArray arr = obj.getJSONArray("userid");
+			 JSONArray arr1 = obj.getJSONArray("invoice_id");
+			 JSONArray arr2 = obj.getJSONArray("invoice_dt");
+			 JSONArray arr3 = obj.getJSONArray("invoice_desc");
+			 JSONArray arr4 = obj.getJSONArray("customer_name");
+			 JSONArray arr5 = obj.getJSONArray("customer_gst");
+			 JSONArray arr6 = obj.getJSONArray("customer_mob");
+			 JSONArray arr7 = obj.getJSONArray("paid_flag");
+			 JSONArray arr8 = obj.getJSONArray("total_disc_amt");
+			 JSONArray arr9 = obj.getJSONArray("paid_via");
+			 JSONArray arr10 = obj.getJSONArray("payment_Ref");
+			 JSONArray arr11 = obj.getJSONArray("total_inv_amt");
+			 JSONArray arr12 = obj.getJSONArray("cgst_amt");
+			 JSONArray arr13 = obj.getJSONArray("sgst_amt");
+			 JSONArray arr14 = obj.getJSONArray("igst_amt");
+			 JSONArray arr15 = obj.getJSONArray("invoice_item_seq");
+			 JSONArray arr16 = obj.getJSONArray("item_id");
+			 JSONArray arr17 = obj.getJSONArray("item_uom");
+			 JSONArray arr18 = obj.getJSONArray("item_qty");
+			 JSONArray arr19 = obj.getJSONArray("item_rate");
+			 JSONArray arr20 = obj.getJSONArray("item_dis_rt");
+			 JSONArray arr21 = obj.getJSONArray("total_dis_on_item");
+			 
+			 
+			 for(int i=0; i<arr.length(); i++)
+			 {
+				
+				 System.out.print(arr.getInt(i));
+				 //PreparedStatement ps = con.prepareStatement(hdr);
+					
+				// ps.setInt(1, arr1.getInt(i));
+					//ps.executeUpdate();
+				 
+			 }
+			 
+			 
+			 
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println(e);
+		 }
+		 
+		 
+		
+		
+		
+		return item;
+	}
 	
 	
 		
